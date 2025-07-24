@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scratch & Win</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #popupBox {
+      position: relative;
+    }
+
+    #popupClose {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    #popupClose:hover {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://royalebet.net/front/include/images/royalebet.png" alt="Company Logo">
+    <h1>🎉 Scratch & Win 🧧 </h1>
+  </header>
+
+  <p id="instruction">👉 Use your finger to scratch and reveal!</p>
+
+  <div id="scratchContainer">
+    <div id="prizeLayer">
+      <img id="prizeImage" src="https://static.vecteezy.com/system/resources/thumbnails/053/236/126/small_2x/paper-pack-reward-angpao-chinese-icon-png.png" alt="Prize" draggable="false" oncontextmenu="return false;">
+      <p id="prizeText" oncontextmenu="return false;"><strong></strong></p>
+    </div>
+    <canvas id="scratchCanvas" width="300" height="150"></canvas>
+  </div>
+
+  <button id="resetBtn">Reset</button>
+  <div id="secretResetArea"></div>
+  
+  <audio id="bgMusic" src="https://github.com/Elynnn-wc/my-music/raw/refs/heads/main/Tuning%20No.2.mp3" loop></audio>
+  <audio id="winSound" src="https://github.com/Elynnn-wc/my-music/raw/refs/heads/main/brawl-stars-win-winning-sounds-sound-effect-brawl-stars-hd-sound-effects.mp3" preload="auto"></audio>
+
+  <div id="popupOverlay">
+    <div id="popupBox">
+      <button id="popupClose">&times;</button>
+      <h2>🎉 You’ve Won a Prize!</h2>
+      <img id="popupPrizeImage" src="https://static.vecteezy.com/system/resources/thumbnails/053/236/126/small_2x/paper-pack-reward-angpao-chinese-icon-png.png" alt="Prize" />
+      <p id="popupPrizeText"><strong></strong></p>
+      <div id="claimCodeBox" style="margin-top:15px;">
+        <p style="margin-bottom:5px; font-weight:bold; color:#222;">🎟️ Claim Code:</p>
+        <div style="display:flex; justify-content:center; align-items:center;">
+          <input id="claimCode" type="text" readonly />
+          <button onclick="copyCode()" style="padding:6px 12px; font-size:14px;">Copy</button>
+        </div>
+      </div>
+      <p style="color: red; font-weight: bold; margin-top: 15px;">
+        ⚠️ Please take a screenshot and send it to admin before closing.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== Extra Content Area ========== -->
+
+  <section id="howToPlay" style="margin-top: 50px; color: #fff; text-align: center;">
+    <h3 style="font-size: 20px; margin-bottom: 10px;">📋 How to Play</h3>
+    <ol style="list-style: decimal; text-align: left; max-width: 320px; margin: 0 auto; font-size: 15px; line-height: 1.6;">
+      <li>Put Your “Finger” at grey zone will activate the scratch card.</li>
+      <li>Scratch using your finger or mouse to reveal the prize.</li>
+      <li>Take a screenshot of your claim code after winning.</li>
+      <li>Send it to the admin to redeem your reward.</li>
+    </ol>
+  </section>
+
+  <section id="promo" style="margin-top: 40px; color: #ccc; text-align: center;">
+    <h3 style="font-size: 18px;">🎁 Daily Bonus 50%</h3>
+    <p style="font-size: 14px;">Try your luck every day – exciting prizes await!</p>
+  </section>
+
+  <footer style="margin-top: 40px; font-size: 13px; color: #aaa; text-align: center;">
+    <p>⚠️ Each person is allowed only one scratch attempt.</p>
+    <p>📸 Screenshot is mandatory to claim the prize.</p>
+  </footer>
+  <!-- Load main script -->
+  <script src="main.js"></script>
+</body>
+</html>

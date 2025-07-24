@@ -59,7 +59,7 @@ function showPopup(prize) {
   // 播放中奖音效
   winSound.play().catch(err => console.warn("Win sound failed:", err));
 
-  const code = 'RB' + Math.floor(100000 + Math.random() * 900000);
+  const code = 'LB' + Math.floor(100000 + Math.random() * 900000);
   claimCode.value = code;
   claimCode.style.color = '#111';
   canvas.style.pointerEvents = 'none';

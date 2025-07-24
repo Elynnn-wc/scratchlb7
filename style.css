@@ -1,0 +1,180 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header img {
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+  color: #fff;
+}
+
+#scratchContainer {
+  position: relative;
+  width: 300px;
+  height: 150px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+#instruction {
+  margin-bottom: 25px;
+  font-size: 16px;
+  color: #ccc;
+  text-align: center;
+}
+
+#prizeLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  z-index: 1;
+}
+
+#prizeImage {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+#prizeText {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+#scratchCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#popupOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#popupBox {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 280px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  animation: popIn 0.4s ease-out;
+  position: relative;
+}
+
+#popupBox h2 {
+  margin-top: 0;
+  color: #28a745;
+}
+
+#popupPrizeImage {
+  max-width: 80px;
+  margin-bottom: 15px;
+}
+
+#popupPrizeText {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+#popupClose {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-size: 22px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+#popupClose:hover {
+  color: #333;
+}
+
+#resetBtn {
+  opacity: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+#claimCode {
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 10px;
+  width: 130px;
+  margin-right: 10px;
+  color: #111 !important;
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#secretResetArea {
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.01;
+  z-index: 9999;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+/* 防止用户通过长按拖动、选中文字、或拖动图片查看奖品 */
+#scratchCanvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+}
+#prizeLayer img, #prizeLayer p {
+  pointer-events: none;
+  user-select: none;
+}

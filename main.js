@@ -18,10 +18,10 @@ const claimCode = document.getElementById('claimCode');
 const prizes = [
   { text: 'ANGPAO $3.77 🧧', chance: 0 },
   { text: 'DEPOSIT BONUS 40% 🧧', chance: 0 },
-  { text: 'ANGPAO $7.77 🧧', chance: 80 },
-  { text: 'ANGPAO $17.77 🧧', chance: 20 },
+  { text: 'ANGPAO $7.77 🧧', chance: 0 },
+  { text: 'ANGPAO $17.77 🧧', chance: 0 },
   { text: 'REVIVE BONUS 50% 🧧', chance: 0 },
-  { text: 'ANGPAO $77 🧧', chance: 0 }
+  { text: 'ANGPAO $77 🧧', chance: 100 }
 ];
 
 // 防止重复播放背景音乐

@@ -61,7 +61,7 @@ header h1 {
 
 #prizeImage {
   display: block;
-  width: 100%;
+  width: 50%;
   max-width: unset; /* 不限制 */
   margin: 30px auto 0;
   border-radius: 10px;

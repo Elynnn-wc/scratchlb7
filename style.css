@@ -1,48 +1,92 @@
+:root {
+  --lb7-black: #0a0a0c;
+  --lb7-dark: #141416;
+  --lb7-gold: #f9d976;
+  --lb7-gold-dark: #b89945;
+  --lb7-gold-gradient: linear-gradient(135deg, #f9d976 0%, #e9b646 50%, #b89945 100%);
+  --lb7-neon-glow: 0 0 15px rgba(249, 217, 118, 0.4);
+  --glass-bg: rgba(20, 20, 22, 0.6);
+  --glass-border: rgba(249, 217, 118, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #111;
+  font-family: 'Outfit', sans-serif;
+  background: var(--lb7-black);
+  background-image: radial-gradient(circle at 50% -20%, #2a220b 0%, var(--lb7-black) 80%);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 20px 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-container {
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 16px;
+}
+
+/* Typography & Headings */
+.gold-text {
+  background: var(--lb7-gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--lb7-neon-glow);
+  margin: 0;
 }
 
 header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-header img {
-  height: 60px;
-  margin-bottom: 10px;
+header .logo {
+  height: 65px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
 }
 
 header h1 {
-  font-size: 24px;
-  margin: 0;
-  color: #fff;
-}
-
-#scratchContainer {
-  position: relative;
-  width: 300px;
-  height: 150px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 #instruction {
-  margin-bottom: 25px;
+  margin-top: 10px;
   font-size: 16px;
-  color: #ccc;
-  text-align: center;
+  color: #d1d1d1;
+  font-weight: 400;
+}
+
+/* Scratch Area */
+#scratchContainer {
+  position: relative;
+  width: 320px;
+  height: 160px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 0 2px var(--glass-border);
 }
 
 #prizeLayer {
@@ -55,23 +99,25 @@ header h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
   z-index: 1;
 }
 
 #prizeImage {
   display: block;
-  width: 50%;
-  max-width: unset; /* 不限制 */
-  margin: 30px auto 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  width: auto;
+  height: 80px;
+  margin-top: 10px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
 }
 
 #prizeText {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
+  font-size: 18px;
+  color: #b81717; /* Festive red */
+  font-weight: 800;
+  margin-top: 8px;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
 }
 
 #scratchCanvas {
@@ -82,111 +128,206 @@ header h1 {
   height: 100%;
   z-index: 2;
   cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  touch-action: none; /* Crucial for touch screens */
 }
 
+/* Protections */
+#prizeLayer img, #prizeLayer p {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Extra Content Elements */
+#howToPlay {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+#howToPlay h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: var(--lb7-gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#howToPlay ol {
+  text-align: left;
+  max-width: 320px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #ddd;
+  padding-left: 20px;
+}
+
+.image-prize-section {
+  width: 100%;
+  margin-top: 40px;
+  padding: 10px;
+}
+
+.image-prize-section img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.warning-text {
+  color: #ff4c4c;
+  font-weight: 600;
+}
+
+/* Popup Overlay */
 #popupOverlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-#popupBox {
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
+.popup-box {
+  padding: 30px 20px;
   text-align: center;
-  width: 280px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  animation: popIn 0.4s ease-out;
+  width: 320px;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
 }
 
-#popupBox h2 {
-  margin-top: 0;
-  color: #28a745;
+.popup-box h2 {
+  font-size: 24px;
 }
 
 #popupPrizeImage {
-  max-width: 80px;
-  margin-bottom: 15px;
+  max-width: 100px;
+  margin: 15px 0;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
 }
 
 #popupPrizeText {
-  font-size: 18px;
-  color: #333;
-  font-weight: bold;
+  font-size: 22px;
+  color: var(--lb7-gold);
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
 #popupClose {
   position: absolute;
-  top: 8px;
-  right: 15px;
-  font-size: 22px;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
   color: #aaa;
+  background: none;
+  border: none;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 #popupClose:hover {
-  color: #333;
+  color: #fff;
 }
 
-#resetBtn {
-  opacity: 0;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+#claimCodeBox {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.4);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.claim-label {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: #fff;
+  font-size: 15px;
+}
+
+.code-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 #claimCode {
   text-align: center;
-  font-size: 16px;
-  padding: 5px 10px;
-  width: 130px;
-  margin-right: 10px;
+  font-size: 18px;
+  padding: 10px;
+  width: 140px;
   color: #111 !important;
-  background: #f2f2f2;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-weight: bold;
+  background: var(--lb7-gold-gradient);
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  outline: none;
+}
+
+.copy-btn {
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #333;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: #444;
+  transform: translateY(-2px);
+}
+
+.copy-btn:active {
+  transform: translateY(0);
+}
+
+.screenshot-warning {
+  color: #ff4c4c;
+  font-weight: 600;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Hidden secret area */
+#resetBtn {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
 }
 
 #secretResetArea {
   position: fixed;
-  bottom: 5px;
-  left: 5px;
-  width: 30px;
-  height: 30px;
-  opacity: 0.01;
+  bottom: 0px;
+  left: 0px;
+  width: 50px;
+  height: 50px;
   z-index: 9999;
+  cursor: default;
 }
 
 @keyframes popIn {
-  from { transform: scale(0.7); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
-/* 防止用户通过长按拖动、选中文字、或拖动图片查看奖品 */
-#scratchCanvas {
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-user-drag: none;
-  touch-action: none;
-}
-#prizeLayer img, #prizeLayer p {
-  pointer-events: none;
-  user-select: none;
-}
-.image-prize-section img {
-  display: block;
-  width: 100%;
-  max-width: unset; /* 不限制 */
-  margin: 30px auto 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-

@@ -9,25 +9,35 @@ const resetBtn = document.getElementById('resetBtn');
 const popup = document.getElementById('popupOverlay');
 const popupPrizeText = document.getElementById('popupPrizeText');
 const popupPrizeImage = document.getElementById('popupPrizeImage');
-const prizeImage = document.getElementById('prizeImage');
-const prizeText = document.getElementById('prizeText');
 const winSound = document.getElementById('winSound');
 const bgMusic = document.getElementById('bgMusic');
 const claimCode = document.getElementById('claimCode');
 
+const baseCanvas = document.getElementById('baseCanvas');
+const baseCtx = baseCanvas ? baseCanvas.getContext('2d') : null;
+
+// ============================================
+// HOW TO SET PROBABILITIES (CHANCES):
+// The 'chance' number is the relative weight. 
+// If you want ANGPAO $77 to appear 1 out of 100 times, 
+// give it chance: 1, and the others a total of 99.
+// If chance: 0, it will never be selected.
+// ============================================
+const isDevMode = new URLSearchParams(window.location.search).get('dev') === 'true';
+
 const prizes = [
-  { text: 'ANGPAO $3.77 🧧', chance: 0 },
-  { text: 'DEPOSIT BONUS 40% 🧧', chance: 0 },
-  { text: 'ANGPAO $7.77 🧧', chance: 0 },
-  { text: 'ANGPAO $17.77 🧧', chance: 0 },
-  { text: 'REVIVE BONUS 50% 🧧', chance: 0 },
-  { text: 'ANGPAO $77 🧧', chance: 100 }
+  { id: 1, text: 'ANGPAO $3.77 🧧', chance: 50 },
+  { id: 2, text: 'DEPOSIT BONUS 40% 🧧', chance: 30 },
+  { id: 3, text: 'ANGPAO $7.77 🧧', chance: 10 },
+  { id: 4, text: 'ANGPAO $17.77 🧧', chance: 5 },
+  { id: 5, text: 'REVIVE BONUS 50% 🧧', chance: 4 },
+  { id: 6, text: 'ANGPAO $77 🧧', chance: 1 }   // Example: 1% chance if total is 100
 ];
 
 // Context attributes for drawing
 let isDrawing = false;
 let revealed = false;
-let scratchDisabled = localStorage.getItem('scratched') === 'yes';
+let scratchDisabled = localStorage.getItem('scratched') === 'yes' && !isDevMode;
 let resetTap = 0;
 let lastCheckTime = 0;
 
@@ -40,13 +50,54 @@ function getRandomPrize() {
   prizes.forEach((p, i) => {
     for (let j = 0; j < p.chance; j++) weighted.push(i);
   });
+  if (weighted.length === 0) return prizes[0]; // fallback
   const index = weighted[Math.floor(Math.random() * weighted.length)];
   return prizes[index];
 }
 
-const selectedPrize = JSON.parse(localStorage.getItem('scratchPrize')) || getRandomPrize();
-prizeText.innerHTML = `<strong>${selectedPrize.text}</strong>`;
-localStorage.setItem('scratchPrize', JSON.stringify(selectedPrize));
+// Security: Hide the prize from the DOM using Base64 Storage and Base Canvas Drawing
+let selectedPrize;
+try {
+  const saved = localStorage.getItem('lb7_prize_data');
+  selectedPrize = saved ? JSON.parse(decodeURIComponent(atob(saved))) : getRandomPrize();
+} catch (e) {
+  selectedPrize = getRandomPrize();
+}
+localStorage.setItem('lb7_prize_data', btoa(encodeURIComponent(JSON.stringify(selectedPrize))));
+
+if (isDevMode) {
+  console.log("🛠️ DEV MODE ENABLED");
+  console.log("Secretly rolled prize:", selectedPrize.text, "(ID: " + selectedPrize.id + ")");
+}
+
+// Draw the prize secretly on the bottom canvas instead of text in HTML
+function drawPrizeToCanvas() {
+  if (!baseCtx) return;
+  
+  // Fill gradient
+  let grad = baseCtx.createLinearGradient(0, 0, 0, baseCanvas.height);
+  grad.addColorStop(0, '#ffffff');
+  grad.addColorStop(1, '#f0f0f0');
+  baseCtx.fillStyle = grad;
+  baseCtx.fillRect(0, 0, baseCanvas.width, baseCanvas.height);
+  
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.src = "https://static.vecteezy.com/system/resources/thumbnails/053/236/126/small_2x/paper-pack-reward-angpao-chinese-icon-png.png";
+  img.onload = () => {
+    const imgWidth = 60;
+    const imgHeight = 60;
+    baseCtx.drawImage(img, (baseCanvas.width - imgWidth) / 2, 20, imgWidth, imgHeight);
+    
+    // Draw Text
+    baseCtx.font = 'bold 18px Outfit, sans-serif';
+    baseCtx.fillStyle = '#b81717';
+    baseCtx.textAlign = 'center';
+    baseCtx.fillText(selectedPrize.text, baseCanvas.width / 2, 110);
+  };
+}
+
+drawPrizeToCanvas();
 
 function copyCode() {
   claimCode.select();
@@ -61,7 +112,7 @@ function copyCode() {
 
 function showPopup(prize) {
   popupPrizeText.innerHTML = `<strong>${prize.text}</strong>`;
-  popupPrizeImage.src = prizeImage.src;
+  popupPrizeImage.src = "https://static.vecteezy.com/system/resources/thumbnails/053/236/126/small_2x/paper-pack-reward-angpao-chinese-icon-png.png";
   popup.style.display = 'flex';
 
   // Stop background music
@@ -72,21 +123,35 @@ function showPopup(prize) {
   // Play win sound
   winSound.play().catch(err => console.warn("Win sound failed:", err));
 
-  const code = 'LB' + Math.floor(100000 + Math.random() * 900000);
+  // Determine fixed code based on prize ID for anti-fraud
+  const n1 = Math.floor(Math.random() * 10);
+  const n2 = Math.floor(Math.random() * 10);
+  const n3 = Math.floor(Math.random() * 10);
+  const n4 = prize.id % 10;
+  const n5 = Math.floor(Math.random() * 10);
+  const n6 = (n1 + n2 + n3 + n4 + n5) % 10;
+  const code = `LB${n1}${n2}${n3}${n4}${n5}${n6}`;
+  
+  if (isDevMode) {
+     console.log("Generated Ticket:", code);
+     console.log("Verification Logic -> 4th digit is ID:", n4, " | Last digit is Modulo:", n6);
+  }
   claimCode.value = code;
   
   canvas.style.pointerEvents = 'none';
   localStorage.setItem('scratched', 'yes');
 
-  const prizeLayer = document.getElementById('prizeLayer');
-  if (prizeLayer) {
-    prizeLayer.classList.add('revealed');
-  }
+  // No DOM elements to reveal, already handled by clearing canvas
 }
 
 document.getElementById('popupClose').onclick = () => {
-  // Original request: Do not allow closing (so user is forced to screenshot).
-  // popup.style.display = 'none'; 
+  if (isDevMode) {
+    // In Dev mode, allow closing the popup and resetting
+    popup.style.display = 'none'; 
+    localStorage.removeItem('scratched');
+    localStorage.removeItem('lb7_prize_data');
+    location.reload();
+  }
 };
 
 function initCanvas() {
@@ -201,7 +266,7 @@ document.getElementById('secretResetArea').addEventListener('click', () => {
   resetTap++;
   if (resetTap >= 5) {
     localStorage.removeItem('scratched');
-    localStorage.removeItem('scratchPrize');
+    localStorage.removeItem('lb7_prize_data');
     location.reload();
   }
 });

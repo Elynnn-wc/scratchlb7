@@ -2,93 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scratch & Win</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Scratch & Win - LB7 Limited</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <style>
-    #popupBox {
-      position: relative;
-    }
-
-    #popupClose {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-    }
-
-    #popupClose:hover {
-      color: red;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=476,fit=crop,q=95/mv0J5WEbj8hgVW6P/livebet777_logo-A1a51POD6MszgRX4.png" alt="Company Logo">
-    <h1>🎉 Scratch & Win 🧧 </h1>
-  </header>
+  <div class="app-container">
+    <header>
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=476,fit=crop,q=95/mv0J5WEbj8hgVW6P/livebet777_logo-A1a51POD6MszgRX4.png" alt="Company Logo" class="logo">
+      <h1 class="gold-text">🎉 Scratch & Win 🧧</h1>
+      <p id="instruction">👉 Use your finger to scratch and reveal your destiny!</p>
+    </header>
 
-  <p id="instruction">👉 Use your finger to scratch and reveal!</p>
+    <main>
+      <div id="scratchContainer" class="glass-panel">
+        <div id="prizeLayer">
+          <img id="prizeImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn9DDOH-0D-NAl4n1NIYLXdmZ9gpsvh-ekqA&s" alt="Prize" draggable="false" oncontextmenu="return false;">
+          <p id="prizeText" oncontextmenu="return false;"><strong></strong></p>
+        </div>
+        <canvas id="scratchCanvas" width="300" height="150"></canvas>
+      </div>
+    </main>
 
-  <div id="scratchContainer">
-    <div id="prizeLayer">
-      <img id="prizeImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn9DDOH-0D-NAl4n1NIYLXdmZ9gpsvh-ekqA&s" alt="Prize" draggable="false" oncontextmenu="return false;">
-      <p id="prizeText" oncontextmenu="return false;"><strong></strong></p>
+    <!-- ========== Extra Content Area ========== -->
+    <section id="howToPlay">
+      <h3>📋 How to Play</h3>
+      <ol>
+        <li>Put your finger on the grey zone to activate the scratch card.</li>
+        <li>Scratch using your finger or mouse to reveal the prize.</li>
+        <li>Take a screenshot of your claim code after winning.</li>
+        <li>Send it to the admin to redeem your reward.</li>
+      </ol>
+    </section>
+
+    <div class="image-prize-section glass-panel">
+      <img id="prizeListImage" src="https://i.imgur.com/Apd19xC.jpeg" alt="Prize List" />
     </div>
-    <canvas id="scratchCanvas" width="300" height="150"></canvas>
+
+    <footer>
+      <p class="warning-text">⚠️ Each person is allowed only one scratch attempt.</p>
+      <p>📸 Screenshot is mandatory to claim the prize.</p>
+    </footer>
   </div>
 
   <button id="resetBtn">Reset</button>
   <div id="secretResetArea"></div>
   
-  <audio id="bgMusic" src="https://github.com/Elynnn-wc/my-music/raw/refs/heads/main/Tuning%20No.2.mp3" loop></audio>
+  <audio id="bgMusic" src="https://github.com/Elynnn-wc/my-music/raw/refs/heads/main/Tuning%20No.2.mp3"></audio>
   <audio id="winSound" src="https://github.com/Elynnn-wc/my-music/raw/refs/heads/main/brawl-stars-win-winning-sounds-sound-effect-brawl-stars-hd-sound-effects.mp3" preload="auto"></audio>
 
+  <!-- Popup -->
   <div id="popupOverlay">
-    <div id="popupBox">
+    <div id="popupBox" class="glass-panel popup-box">
       <button id="popupClose">&times;</button>
-      <h2>🎉 You’ve Won a Prize!</h2>
+      <h2 class="gold-text">🎉 You’ve Won a Prize!</h2>
       <img id="popupPrizeImage" src="https://static.vecteezy.com/system/resources/thumbnails/053/236/126/small_2x/paper-pack-reward-angpao-chinese-icon-png.png" alt="Prize" />
       <p id="popupPrizeText"><strong></strong></p>
-      <div id="claimCodeBox" style="margin-top:15px;">
-        <p style="margin-bottom:5px; font-weight:bold; color:#222;">🎟️ Claim Code:</p>
-        <div style="display:flex; justify-content:center; align-items:center;">
+      
+      <div id="claimCodeBox">
+        <p class="claim-label">🎟️ Claim Code:</p>
+        <div class="code-wrapper">
           <input id="claimCode" type="text" readonly />
-          <button onclick="copyCode()" style="padding:6px 12px; font-size:14px;">Copy</button>
+          <button onclick="copyCode()" class="copy-btn">Copy</button>
         </div>
       </div>
-      <p style="color: red; font-weight: bold; margin-top: 15px;">
+      <p class="screenshot-warning">
         ⚠️ Please take a screenshot and send it to admin before closing.
       </p>
     </div>
   </div>
 
-  <!-- ========== Extra Content Area ========== -->
-
-  <section id="howToPlay" style="margin-top: 50px; color: #fff; text-align: center;">
-    <h3 style="font-size: 20px; margin-bottom: 10px;">📋 How to Play</h3>
-    <ol style="list-style: decimal; text-align: left; max-width: 320px; margin: 0 auto; font-size: 15px; line-height: 1.6;">
-      <li>Put Your “Finger” at grey zone will activate the scratch card.</li>
-      <li>Scratch using your finger or mouse to reveal the prize.</li>
-      <li>Take a screenshot of your claim code after winning.</li>
-      <li>Send it to the admin to redeem your reward.</li>
-    </ol>
-  </section>
-
-   <div class="image-prize-section">
-     <img id="prizeImage" src="https://i.imgur.com/Apd19xC.jpeg" alt="Prize List" />
-   </div>
-
-
-  <footer style="margin-top: 40px; font-size: 13px; color: #aaa; text-align: center;">
-    <p>⚠️ Each person is allowed only one scratch attempt.</p>
-    <p>📸 Screenshot is mandatory to claim the prize.</p>
-  </footer>
-  <!-- Load main script -->
   <script src="main.js"></script>
 </body>
 </html>

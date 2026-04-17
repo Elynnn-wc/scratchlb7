@@ -15,8 +15,7 @@
 
 body {
   font-family: 'Outfit', sans-serif;
-  background: var(--lb7-black);
-  background-image: radial-gradient(circle at 50% -20%, #2a220b 0%, var(--lb7-black) 80%);
+  background: var(--lb7-black) url('bg.png') center/cover no-repeat;
   color: #fff;
   display: flex;
   flex-direction: column;

@@ -88,43 +88,19 @@ header h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 0 2px var(--glass-border);
 }
 
-#prizeLayer {
+#baseCanvas, #scratchCanvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+}
+
+#baseCanvas {
   z-index: 1;
 }
 
-#prizeImage {
-  display: block;
-  width: auto;
-  height: 80px;
-  margin-top: 10px;
-  object-fit: contain;
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
-}
-
-#prizeText {
-  font-size: 18px;
-  color: #b81717; /* Festive red */
-  font-weight: 800;
-  margin-top: 8px;
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
-}
-
 #scratchCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   z-index: 2;
   cursor: pointer;
   -webkit-user-select: none;
@@ -132,12 +108,6 @@ header h1 {
   -webkit-touch-callout: none;
   -webkit-user-drag: none;
   touch-action: none; /* Crucial for touch screens */
-}
-
-/* Protections */
-#prizeLayer img, #prizeLayer p {
-  pointer-events: none;
-  user-select: none;
 }
 
 /* Extra Content Elements */
